@@ -72,4 +72,18 @@ public class Database {
 		}
 	}
 	
+	public int getStudentRentals(String studentId) {
+		int count = 0;
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(String.format("SELECT COUNT(*) FROM rental WHERE end_date>CURRENT_DATE and student_id=%s GROUP BY student_id", studentId));
+			if(result.next())
+				count = result.getInt("count");
+			connection.commit();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
 }

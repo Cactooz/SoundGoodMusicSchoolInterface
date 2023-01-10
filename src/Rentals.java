@@ -4,5 +4,6 @@ public class Rentals {
         db.connect("sgms", "postgres", "pass");
         db.getAllInstruments("piano");
         db.rentInstrument("2","2");
+        System.out.println(db.getStudentRentals("2"));
     }
 }
