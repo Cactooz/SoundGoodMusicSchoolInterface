@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Controller {
@@ -18,8 +19,8 @@ public class Controller {
 	//Get instruments available to rent
 	public List<String> getAllInstruments(String type) throws SQLException {
 		ResultSet result;
-		if(type.equalsIgnoreCase("ALL"))
-			//Get all available instruments
+		if(type.equalsIgnoreCase("ALL") || !db.readInstrumentTypes(type))
+			//Get all available instruments, if ALL or invalid type is entered
 			result = db.readAllAvailableInstruments();
 		else
 			//Get all available instruments of a specific type
