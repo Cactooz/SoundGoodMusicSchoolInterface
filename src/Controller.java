@@ -75,11 +75,11 @@ public class Controller {
 	}
 	
 	//Terminate an ongoing rental
-	public String terminateRental(String studentId) {
+	public String terminateRental(String rentalId) {
 		//Terminate the rental
-		if(db.updateOngoingRental(studentId))
-			return "Successfully terminated instrument rental " + studentId + ".";
+		if(db.updateOngoingRental(rentalId))
+			return "Successfully terminated instrument rental " + rentalId + ".";
 		
-		return "Error while terminating instrument rental " + studentId + ". Please try again.";
+		return "Error while terminating instrument rental " + rentalId + ". Please try again.";
 	}
 }

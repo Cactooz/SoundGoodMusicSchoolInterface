@@ -92,13 +92,13 @@ public class DAO {
 		return result;
 	}
 	
-	public boolean updateOngoingRental(String studentId) {
+	public boolean updateOngoingRental(String rentalId) {
 		try {
 			Statement statement = connection.createStatement();
 			//Lock the rental that should be updated until commit
-			statement.executeQuery(String.format("SELECT * FROM rental WHERE rental_id=%s FOR UPDATE", studentId));
+			statement.executeQuery(String.format("SELECT * FROM rental WHERE rental_id=%s FOR UPDATE", rentalId));
 			//Update the end date of the rental to today's date
-			int updated = statement.executeUpdate(String.format("UPDATE rental SET end_date=CURRENT_DATE WHERE rental_id='%s'", studentId));
+			int updated = statement.executeUpdate(String.format("UPDATE rental SET end_date=CURRENT_DATE WHERE rental_id='%s'", rentalId));
 			//Rollback the change if one row is not updated
 			if(updated != 1) {
 				connection.rollback();
