@@ -19,6 +19,21 @@ public class DAO {
 		}
 	}
 	
+	public boolean readStudentId(String studentId) {
+		boolean exist = false;
+		try {
+			Statement statement = connection.createStatement();
+			//Check if a student with the id exist
+			ResultSet result = statement.executeQuery(String.format("SELECT COUNT(student_id) FROM student WHERE student_id='%s'", studentId));
+			if(result.next())
+				exist = result.getBoolean("count");
+			connection.commit();
+		} catch(SQLException error) {
+			System.out.println(error);
+		}
+		return exist;
+	}
+	
 	public ResultSet readAllAvailableInstruments() {
 		ResultSet result = null;
 		try {
