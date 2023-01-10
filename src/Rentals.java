@@ -5,5 +5,6 @@ public class Rentals {
         db.getAllInstruments("piano");
         db.rentInstrument("2","2");
         System.out.println(db.getStudentRentals("2"));
+        db.getOngoingRentals();
     }
 }

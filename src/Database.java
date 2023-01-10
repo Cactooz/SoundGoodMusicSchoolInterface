@@ -86,4 +86,22 @@ public class Database {
 		return count;
 	}
 	
+	public void getOngoingRentals() {
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery("SELECT * FROM RENTAL WHERE end_date>CURRENT_DATE ");
+			while(result.next()) {
+				System.out.print("Rental ID: " + result.getString("rental_id") + "\t");
+				System.out.print("Start Date: " + result.getString("start_date") + "\t");
+				System.out.print("End Date: " + result.getString("end_date") + "\t");
+				System.out.print("Student ID: " + result.getString("student_id") + "\t");
+				System.out.print("Instrument ID: " + result.getString("physical_instrument_id") + "\t");
+				System.out.println();
+			}
+			connection.commit();
+		} catch(SQLException error) {
+			System.out.println(error);
+		}
+	}
+	
 }
