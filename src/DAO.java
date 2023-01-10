@@ -34,6 +34,21 @@ public class DAO {
 		return exist;
 	}
 	
+	public boolean readInstrumentId(String instrumentId) {
+		boolean exist = false;
+		try {
+			Statement statement = connection.createStatement();
+			//Check if a rentable instrument with the id exist
+			ResultSet result = statement.executeQuery(String.format("SELECT COUNT(id) FROM rentable_instruments WHERE id='%s'", instrumentId));
+			if(result.next())
+				exist = result.getBoolean("count");
+			connection.commit();
+		} catch(SQLException error) {
+			System.out.println(error);
+		}
+		return exist;
+	}
+	
 	public ResultSet readAllAvailableInstruments() {
 		ResultSet result = null;
 		try {
