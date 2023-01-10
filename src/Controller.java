@@ -42,6 +42,14 @@ public class Controller {
 	
 	//Rent a instrument for a student
 	public String rentInstrument(String studentId, String instrumentId) {
+		//Check if the studentId is valid
+		if(!db.readStudentId(studentId))
+			return "Error while renting the instrument. There are no student with ID " +  studentId + ".";
+		
+		//Check if the instrumentId is valid to rent
+		if(!db.readInstrumentId(instrumentId))
+			return "Error while renting the instrument. There are no available instrument with ID " +  instrumentId + ".";
+		
 		//Check if the student already have 2 rented instruments
 		if(db.readStudentRental(studentId) >= 2)
 			return "Error while renting the instrument. The student have already rented 2 instruments.";
