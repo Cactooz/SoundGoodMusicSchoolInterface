@@ -104,4 +104,22 @@ public class Database {
 		}
 	}
 	
+	public void terminateRental(String id) {
+		try {
+			Statement statement = connection.createStatement();
+			//Lock the rental that should be updated until commit
+			statement.executeQuery(String.format("SELECT * FROM rental WHERE rental_id=%s FOR UPDATE", id));
+			int updated = statement.executeUpdate(String.format("UPDATE rental SET end_date=CURRENT_DATE WHERE rental_id='%s'", id));
+			if(updated != 1) {
+				connection.rollback();
+				System.out.println("Error while terminating instrument rental " + id + ". Please try again.");
+				return;
+			}
+			connection.commit();
+			System.out.println("Successfully terminated instrument rental " + id + ".");
+		} catch(SQLException error) {
+			System.out.println(error);
+		}
+	}
+	
 }

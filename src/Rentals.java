@@ -6,5 +6,7 @@ public class Rentals {
         db.rentInstrument("2","2");
         System.out.println(db.getStudentRentals("2"));
         db.getOngoingRentals();
+        db.terminateRental("5");
+        db.getOngoingRentals();
     }
 }
