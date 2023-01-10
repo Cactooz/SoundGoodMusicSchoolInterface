@@ -56,11 +56,11 @@ WHERE (SELECT EXTRACT(WEEK FROM ts.date) = EXTRACT(WEEK FROM CURRENT_DATE + INTE
 GROUP BY ts.date, g.genre, e.max_students ORDER BY EXTRACT(DOW FROM ts.date), genre;
 
 CREATE VIEW rentable_instruments AS
-SELECT id, instrument, brand_name FROM physical_instrument AS pi
+SELECT physical_instrument_id AS id, instrument, brand_name, cost FROM physical_instrument AS pi
 NATURAL JOIN instrument
 NATURAL JOIN instrument_brand
-WHERE NOT EXISTS (
-SELECT physical_instrument_id FROM rental AS r
-WHERE (SELECT r.end_date > CURRENT_DATE)
-AND r.physical_instrument_id=pi.physical_instrument_id
+    WHERE NOT EXISTS (
+    SELECT physical_instrument_id FROM rental AS r
+    WHERE (SELECT r.end_date > CURRENT_DATE)
+    AND r.physical_instrument_id=pi.physical_instrument_id
 );
