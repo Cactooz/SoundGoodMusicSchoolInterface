@@ -114,12 +114,27 @@ public class DAO {
 		try {
 			Statement statement = connection.createStatement();
 			//Get all the ongoing rentals
-			result = statement.executeQuery("SELECT * FROM rental WHERE end_date>CURRENT_DATE ");
+			result = statement.executeQuery("SELECT * FROM rental WHERE end_date>CURRENT_DATE");
 			connection.commit();
 		} catch(SQLException error) {
 			System.out.println(error);
 		}
 		return result;
+	}
+	
+	public boolean readOngoingRentalId(String rentalId) {
+		boolean exist = false;
+		try {
+			Statement statement = connection.createStatement();
+			//Check if the rentalId is a valid ongoing rental
+			ResultSet result = statement.executeQuery(String.format("SELECT COUNT(rental_id) FROM rental WHERE end_date>CURRENT_DATE AND rental_id='%s'", rentalId));
+			if(result.next())
+				exist = result.getBoolean("count");
+			connection.commit();
+		} catch(SQLException error) {
+			System.out.println(error);
+		}
+		return exist;
 	}
 	
 	public boolean updateOngoingRental(String rentalId) {
