@@ -62,6 +62,21 @@ public class DAO {
 		return result;
 	}
 	
+	public boolean readInstrumentTypes(String type) {
+		boolean exist = false;
+		try {
+			Statement statement = connection.createStatement();
+			//Check if the instrument type is valid
+			ResultSet result = statement.executeQuery(String.format("SELECT COUNT(instrument) FROM instrument WHERE instrument='%s'", type));
+			if(result.next())
+				exist = result.getBoolean("count");
+			connection.commit();
+		} catch(SQLException error) {
+			System.out.println(error);
+		}
+		return exist;
+	}
+	
 	public ResultSet readSpecificAvailableInstruments(String type) {
 		ResultSet result = null;
 		try {
