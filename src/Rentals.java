@@ -3,5 +3,6 @@ public class Rentals {
         Database db = new Database();
         db.connect("sgms", "postgres", "pass");
         db.getAllInstruments("piano");
+        db.rentInstrument("2","2");
     }
 }

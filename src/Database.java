@@ -53,4 +53,23 @@ public class Database {
 		}
 	}
 	
+	public void rentInstrument(String studentId, String instrumentId) {
+		try {
+			Statement statement = connection.createStatement();
+			//Lock the instrument until rent is committed
+			statement.executeQuery(String.format("SELECT * FROM rentable_instruments WHERE id='%s' FOR UPDATE", instrumentId.toLowerCase(Locale.ROOT)));
+			//Rent the instrument
+			int updated = statement.executeUpdate(String.format("INSERT INTO rental (start_date, end_date, student_id, physical_instrument_id) VALUES (CURRENT_DATE, CURRENT_DATE + INTERVAL '1 YEAR', '%s', '%s')", studentId, instrumentId));
+			if(updated != 1) {
+				connection.rollback();
+				System.out.println("Error while renting the instrument. Please try again.");
+				return;
+			}
+			connection.commit();
+			System.out.println("Successfully rented instrument " + instrumentId + " for student " + studentId + ".");
+		} catch(SQLException error) {
+			System.out.println(error);
+		}
+	}
+	
 }
