@@ -84,6 +84,10 @@ public class Controller {
 	
 	//Terminate an ongoing rental
 	public String terminateRental(String rentalId) {
+		//Check if the rentalId is a valid ongoing rentalId
+		if(!db.readOngoingRentalId(rentalId))
+			return "Error while terminating instrument rental " +  rentalId + ". There are no ongoing rental with that id.";
+		
 		//Terminate the rental
 		if(db.updateOngoingRental(rentalId))
 			return "Successfully terminated instrument rental " + rentalId + ".";
